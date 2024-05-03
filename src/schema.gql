@@ -1,0 +1,29 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateGameInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Game {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Mutation {
+  createGame(createGameInput: CreateGameInput!): Game!
+  removeGame(id: Int!): Game!
+  updateGame(updateGameInput: UpdateGameInput!): Game!
+}
+
+type Query {
+  game(id: Int!): Game!
+}
+
+input UpdateGameInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
