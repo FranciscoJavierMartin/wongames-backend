@@ -10,4 +10,4 @@ RUN npm install
 
 CMD [ "npm", "run", "start:dev" ]
 
-EXPOSE 27017
+EXPOSE 27017 7101
