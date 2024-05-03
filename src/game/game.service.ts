@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGameInput } from './dto/create-game.input';
 import { UpdateGameInput } from './dto/update-game.input';
+import { Game } from './entities/game.entity';
 
 @Injectable()
 export class GameService {
@@ -8,8 +9,8 @@ export class GameService {
     return 'This action adds a new game';
   }
 
-  findAll() {
-    return `This action returns all game`;
+  findAll(): Game[] {
+    return [{ exampleField: 1 }];
   }
 
   findOne(id: number) {
@@ -22,5 +23,9 @@ export class GameService {
 
   remove(id: number) {
     return `This action removes a #${id} game`;
+  }
+
+  public async populate() {
+    return 'Populate';
   }
 }
