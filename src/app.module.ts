@@ -13,7 +13,7 @@ import { envs } from './config';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
-    MongooseModule.forRoot(envs.DATABASE_URL),
+    MongooseModule.forRoot('mongodb://db:27017/wongames'),
     GameModule,
   ],
 })
