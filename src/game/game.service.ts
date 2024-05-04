@@ -14,8 +14,8 @@ export class GameService {
     return 'This action adds a new game';
   }
 
-  findAll(): Game[] {
-    return [{ exampleField: 1 }];
+  public async findAll(): Promise<Game[]> {
+    return [{ name: 'Hello' }];
   }
 
   findOne(id: number) {

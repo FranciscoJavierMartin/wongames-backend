@@ -3,8 +3,8 @@
 # ------------------------------------------------------
 
 type Game {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """Game name"""
+  name: String!
 }
 
 type Query {
