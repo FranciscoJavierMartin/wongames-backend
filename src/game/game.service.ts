@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {Model} from 'mongoose'
 import {InjectModel} from '@nestjs/mongoose'
-import {Game as GameModel} from './schemas/game.shema'
+import {GameDocument, Game as GameModel} from './schemas/game.shema'
 import { CreateGameInput } from './dto/create-game.input';
 import { UpdateGameInput } from './dto/update-game.input';
 import { Game } from './entities/game.entity';
@@ -15,7 +15,8 @@ export class GameService {
   }
 
   public async findAll(): Promise<Game[]> {
-    return [{ name: 'Hello' }];
+    const games =  await this.gameModel.find().exec();
+    return games.map(this.mapDocument2Dto)
   }
 
   findOne(id: number) {
@@ -32,6 +33,12 @@ export class GameService {
 
   public async populate() {
     const createdGame = new this.gameModel({name: new Date().toTimeString()})
-    return createdGame;
+    return createdGame.save();
+  }
+
+  private mapDocument2Dto(game: GameDocument){
+    return {
+      name: game.name
+    }
   }
 }
