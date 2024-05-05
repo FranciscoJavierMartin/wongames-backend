@@ -5,6 +5,9 @@ import { HydratedDocument } from 'mongoose';
 export class Game {
   @Prop()
   name: string;
+
+  @Prop()
+  shortDescription: string;
 }
 
 export type GameDocument = HydratedDocument<Game>;

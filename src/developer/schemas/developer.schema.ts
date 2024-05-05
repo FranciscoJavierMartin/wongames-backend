@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 @Schema({ toJSON: { virtuals: true } })
 export class Developer {
-  @Prop({ unique: true, isRequired: true })
+  @Prop({ isRequired: true })
   name: string;
 
   @Prop()
