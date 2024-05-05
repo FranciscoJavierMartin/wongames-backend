@@ -3,8 +3,8 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
-import { validate } from './config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { EnvVars, validate } from './config';
 import { GameModule } from './game/game.module';
 
 @Module({
@@ -19,7 +19,13 @@ import { GameModule } from './game/game.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
-    MongooseModule.forRoot('mongodb://db:27017/wongames'),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get(EnvVars.DATABASE_URL),
+      }),
+    }),
     GameModule,
   ],
 })

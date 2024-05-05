@@ -6,6 +6,10 @@ class EnvironmentVariables {
   DATABASE_URL: string;
 }
 
+export enum EnvVars {
+  DATABASE_URL = 'DATABASE_URL',
+}
+
 export function validate(config: Record<string, unknown>) {
   const validatedConfig = plainToInstance(EnvironmentVariables, config, {
     enableImplicitConversion: true,
