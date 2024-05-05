@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 @Schema()
@@ -8,4 +8,4 @@ export class Game {
 }
 
 export type GameDocument = HydratedDocument<Game>;
-export const GameSchema = SchemaFactory.createForClass(Game)
+export const GameSchema = SchemaFactory.createForClass(Game);
