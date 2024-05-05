@@ -9,6 +9,7 @@ import { GameModule } from './game/game.module';
 import { CategoryModule } from './category/category.module';
 import { DeveloperModule } from './developer/developer.module';
 import { PublisherModule } from './publisher/publisher.module';
+import { PlatformModule } from './platform/platform.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { PublisherModule } from './publisher/publisher.module';
     CategoryModule,
     DeveloperModule,
     PublisherModule,
+    PlatformModule,
   ],
 })
 export class AppModule {}
