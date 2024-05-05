@@ -8,6 +8,7 @@ import { EnvVars, validate } from './config';
 import { GameModule } from './game/game.module';
 import { CategoryModule } from './category/category.module';
 import { DeveloperModule } from './developer/developer.module';
+import { PublisherModule } from './publisher/publisher.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { DeveloperModule } from './developer/developer.module';
     GameModule,
     CategoryModule,
     DeveloperModule,
+    PublisherModule,
   ],
 })
 export class AppModule {}
