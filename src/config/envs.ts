@@ -1,22 +1,26 @@
-import 'dotenv/config';
-import * as joi from 'joi';
+import { plainToInstance } from 'class-transformer';
+import { IsString, validateSync } from 'class-validator';
 
-interface EnvVars {
+class EnvironmentVariables {
+  @IsString()
   DATABASE_URL: string;
 }
 
-const envSchema = joi.object({
-  DATABASE_URL: joi.string().required(),
-});
-
-const { error, value } = envSchema.validate({ ...process.env });
-
-if (error) {
-  throw new Error(`Config validation error: ${error.message}`);
+export enum EnvVars {
+  DATABASE_URL = 'DATABASE_URL',
 }
 
-const envVars: EnvVars = value;
+export function validate(config: Record<string, unknown>) {
+  const validatedConfig = plainToInstance(EnvironmentVariables, config, {
+    enableImplicitConversion: true,
+  });
+  const errors = validateSync(validatedConfig, {
+    skipMissingProperties: false,
+  });
 
-export const envs = {
-  DATABASE_URL: envVars.DATABASE_URL,
-};
+  if (errors.length > 0) {
+    throw new Error(errors.toString());
+  }
+
+  return validatedConfig;
+}
