@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-@Schema()
+@Schema({ toJSON: { virtuals: true } })
 export class Category {
   @Prop({ unique: true, isRequired: true })
   name: string;
