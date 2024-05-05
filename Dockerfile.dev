@@ -4,7 +4,9 @@ WORKDIR /app
 
 RUN npm i -g @nestjs/cli
 
-COPY ./package*.json .
+# CHECK USER PERMISSIONS
+# COPY ./package*.json .
+COPY . .
 
 RUN npm install
 
