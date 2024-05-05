@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EnvVars, validate } from './config';
 import { GameModule } from './game/game.module';
 import { CategoryModule } from './category/category.module';
+import { DeveloperModule } from './developer/developer.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CategoryModule } from './category/category.module';
     }),
     GameModule,
     CategoryModule,
+    DeveloperModule,
   ],
 })
 export class AppModule {}
