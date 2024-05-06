@@ -5,12 +5,18 @@ import { Game } from './schemas/game.shema';
 import { CreateGameInput } from './dto/create-game.input';
 import { UpdateGameInput } from './dto/update-game.input';
 import { CategoryService } from 'src/category/category.service';
+import { DeveloperService } from 'src/developer/developer.service';
+import { PlatformService } from 'src/platform/platform.service';
+import { PublisherService } from 'src/publisher/publisher.service';
 
 @Injectable()
 export class GameService {
   constructor(
     @InjectModel(Game.name) private gameModel: Model<Game>,
     private readonly categoryService: CategoryService,
+    private readonly developerService: DeveloperService,
+    private readonly platformService: PlatformService,
+    private readonly publisherService: PublisherService,
   ) {}
 
   create(createGameInput: CreateGameInput) {
