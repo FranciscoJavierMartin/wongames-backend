@@ -1,6 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Category } from 'src/category/schemas/category.schema';
 
 // TODO: Refactor
 export enum Rating {
@@ -40,6 +41,10 @@ export class Game {
 
   @Prop()
   gallery: string[];
+
+  @Field(() => [Category])
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }] })
+  categories: Category[];
 }
 
 export type GameDocument = HydratedDocument<Game>;
