@@ -1,15 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDeveloperInput } from './dto/create-developer.input';
 import { UpdateDeveloperInput } from './dto/update-developer.input';
+import { Developer } from './schemas/developer.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class DeveloperService {
+  constructor(
+    @InjectModel(Developer.name)
+    private developerModel: Model<Developer>,
+  ) {}
+
   create(createDeveloperInput: CreateDeveloperInput) {
     return 'This action adds a new developer';
   }
 
-  findAll() {
-    return `This action returns all developer`;
+  public async findAll(): Promise<Developer[]> {
+    return this.developerModel.find().exec();
   }
 
   findOne(id: number) {
