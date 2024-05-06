@@ -5,14 +5,11 @@ import { GameDocument, Game as GameModel } from './schemas/game.shema';
 import { CreateGameInput } from './dto/create-game.input';
 import { UpdateGameInput } from './dto/update-game.input';
 import { Game } from './entities/game.entity';
-import { Category as CategoryModel } from 'src/category/schemas/category.schema';
 
 @Injectable()
 export class GameService {
   constructor(
     @InjectModel(GameModel.name) private gameModel: Model<GameModel>,
-    @InjectModel(CategoryModel.name)
-    private categoryModel: Model<CategoryModel>,
   ) {}
 
   create(createGameInput: CreateGameInput) {
