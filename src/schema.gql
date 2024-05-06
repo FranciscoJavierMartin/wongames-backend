@@ -2,12 +2,96 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Category {
+  name: String!
+  slug: String!
+}
+
+input CreateCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateDeveloperInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreatePlatformInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreatePublisherInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Developer {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Game {
   """Game name"""
   name: String!
 }
 
+type Mutation {
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  createDeveloper(createDeveloperInput: CreateDeveloperInput!): Developer!
+  createPlatform(createPlatformInput: CreatePlatformInput!): Platform!
+  createPublisher(createPublisherInput: CreatePublisherInput!): Publisher!
+  removeCategory(id: Int!): Category!
+  removeDeveloper(id: Int!): Developer!
+  removePlatform(id: Int!): Platform!
+  removePublisher(id: Int!): Publisher!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  updateDeveloper(updateDeveloperInput: UpdateDeveloperInput!): Developer!
+  updatePlatform(updatePlatformInput: UpdatePlatformInput!): Platform!
+  updatePublisher(updatePublisherInput: UpdatePublisherInput!): Publisher!
+}
+
+type Platform {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Publisher {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
+  categories: [Category!]!
+  category(id: Int!): Category!
+  developer(id: Int!): Developer!
   game(id: Int!): Game!
   games: [Game!]!
+  platform(id: Int!): Platform!
+  publisher(id: Int!): Publisher!
+}
+
+input UpdateCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateDeveloperInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdatePlatformInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdatePublisherInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

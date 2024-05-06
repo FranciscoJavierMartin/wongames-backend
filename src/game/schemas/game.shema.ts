@@ -1,3 +1,4 @@
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
@@ -11,8 +12,10 @@ export enum Rating {
   pegi18 = 'pegi18',
 }
 
+@ObjectType()
 @Schema()
 export class Game {
+  @Field({ description: 'Game name' })
   @Prop({ isRequired: true })
   name: string;
 
