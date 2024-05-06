@@ -8,7 +8,7 @@ export class GameController {
   @Post('populate')
   public async populate(@Query() queryParams: object) {
     return this.gameService.populate({
-      limit: 48,
+      limit: '48',
       order: 'desc:trending',
       ...queryParams,
     });

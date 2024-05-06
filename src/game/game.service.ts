@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Game } from './schemas/game.shema';
@@ -11,6 +11,8 @@ import { PublisherService } from 'src/publisher/publisher.service';
 
 @Injectable()
 export class GameService {
+  private readonly logger = new Logger(GameService.name);
+
   constructor(
     @InjectModel(Game.name) private gameModel: Model<Game>,
     private readonly categoryService: CategoryService,
@@ -39,8 +41,14 @@ export class GameService {
     return `This action removes a #${id} game`;
   }
 
-  public async populate(options: object) {
-    
+  public async populate(options: Record<string, string>) {
+    try {
+      const query = new URLSearchParams(options);
+      const gogApiUrl = `https://catalog.gog.com/v1/catalog?${query.toString()}`;
+      return gogApiUrl;
+    } catch (error) {
+      this.logger.error(error);
+    }
     // const createdGame = new this.gameModel({ name: new Date().toTimeString() });
     // return createdGame.save();
     // return await this.categoryService.findAll();
