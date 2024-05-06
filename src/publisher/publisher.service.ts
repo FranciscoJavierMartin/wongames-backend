@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreatePublisherInput } from './dto/create-publisher.input';
 import { UpdatePublisherInput } from './dto/update-publisher.input';
 import { Model } from 'mongoose';
@@ -7,6 +7,8 @@ import { Publisher } from './schemas/publisher.schema';
 
 @Injectable()
 export class PublisherService {
+  private readonly logger = new Logger(PublisherService.name);
+
   constructor(
     @InjectModel(Publisher.name)
     private publisherModel: Model<Publisher>,
@@ -20,6 +22,8 @@ export class PublisherService {
       createPublisherInput,
       { upsert: true },
     );
+
+    this.logger.log(`Created ${createPublisherInput.name} publisher`);
   }
 
   public async findAll(): Promise<Publisher[]> {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateDeveloperInput } from './dto/create-developer.input';
 import { UpdateDeveloperInput } from './dto/update-developer.input';
 import { Developer } from './schemas/developer.schema';
@@ -7,6 +7,8 @@ import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class DeveloperService {
+  private readonly logger = new Logger(DeveloperService.name);
+
   constructor(
     @InjectModel(Developer.name)
     private developerModel: Model<Developer>,
@@ -20,6 +22,8 @@ export class DeveloperService {
       createDeveloperInput,
       { upsert: true },
     );
+
+    this.logger.log(`Created ${createDeveloperInput.name} developer`);
   }
 
   public async findAll(): Promise<Developer[]> {

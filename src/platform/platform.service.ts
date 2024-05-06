@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreatePlatformInput } from './dto/create-platform.input';
 import { UpdatePlatformInput } from './dto/update-platform.input';
 import { InjectModel } from '@nestjs/mongoose';
@@ -7,6 +7,8 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class PlatformService {
+  private readonly logger = new Logger(PlatformService.name);
+
   constructor(
     @InjectModel(Platform.name)
     private platformModel: Model<Platform>,
@@ -18,6 +20,8 @@ export class PlatformService {
       createPlatformInput,
       { upsert: true },
     );
+
+    this.logger.log(`Created ${createPlatformInput.name} platform`);
   }
 
   public async findAll(): Promise<Platform[]> {
