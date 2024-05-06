@@ -39,7 +39,8 @@ export class GameService {
     return `This action removes a #${id} game`;
   }
 
-  public async populate() {
+  public async populate(options: object) {
+    
     // const createdGame = new this.gameModel({ name: new Date().toTimeString() });
     // return createdGame.save();
     // return await this.categoryService.findAll();
