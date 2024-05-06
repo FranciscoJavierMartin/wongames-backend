@@ -1,15 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePlatformInput } from './dto/create-platform.input';
 import { UpdatePlatformInput } from './dto/update-platform.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { Platform } from './schemas/platform.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class PlatformService {
+  constructor(
+    @InjectModel(Platform.name)
+    private platformModel: Model<Platform>,
+  ) {}
+
   create(createPlatformInput: CreatePlatformInput) {
     return 'This action adds a new platform';
   }
 
-  findAll() {
-    return `This action returns all platform`;
+  public async findAll(): Promise<Platform[]> {
+    return this.platformModel.find().exec();
   }
 
   findOne(id: number) {
