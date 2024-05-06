@@ -8,11 +8,6 @@ type Category {
   slug: String!
 }
 
-input CreatePublisherInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type Developer {
   games: [Game!]!
   name: String!
@@ -26,12 +21,6 @@ type Game {
   name: String!
 }
 
-type Mutation {
-  createPublisher(createPublisherInput: CreatePublisherInput!): Publisher!
-  removePublisher(id: Int!): Publisher!
-  updatePublisher(updatePublisherInput: UpdatePublisherInput!): Publisher!
-}
-
 type Platform {
   games: [Game!]!
   name: String!
@@ -39,8 +28,9 @@ type Platform {
 }
 
 type Publisher {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  games: [Game!]!
+  name: String!
+  slug: String!
 }
 
 type Query {
@@ -52,10 +42,4 @@ type Query {
   games: [Game!]!
   platform(id: Int!): Platform!
   publisher(id: Int!): Publisher!
-}
-
-input UpdatePublisherInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }

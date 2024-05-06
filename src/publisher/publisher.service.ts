@@ -1,15 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePublisherInput } from './dto/create-publisher.input';
 import { UpdatePublisherInput } from './dto/update-publisher.input';
+import { Category } from 'src/category/schemas/category.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { Publisher } from './schemas/publisher.schema';
 
 @Injectable()
 export class PublisherService {
+  constructor(
+    @InjectModel(Category.name)
+    private publisherModel: Model<Category>,
+  ) {}
+
   create(createPublisherInput: CreatePublisherInput) {
     return 'This action adds a new publisher';
   }
 
-  findAll() {
-    return `This action returns all publisher`;
+  public async findAll(): Promise<Publisher[]> {
+    return this.publisherModel.find().exec();
   }
 
   findOne(id: number) {
