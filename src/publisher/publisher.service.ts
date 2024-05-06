@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePublisherInput } from './dto/create-publisher.input';
 import { UpdatePublisherInput } from './dto/update-publisher.input';
-import { Category } from 'src/category/schemas/category.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Publisher } from './schemas/publisher.schema';
@@ -9,8 +8,8 @@ import { Publisher } from './schemas/publisher.schema';
 @Injectable()
 export class PublisherService {
   constructor(
-    @InjectModel(Category.name)
-    private publisherModel: Model<Category>,
+    @InjectModel(Publisher.name)
+    private publisherModel: Model<Publisher>,
   ) {}
 
   create(createPublisherInput: CreatePublisherInput) {

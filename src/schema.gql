@@ -16,9 +16,12 @@ type Developer {
 
 type Game {
   categories: [Category!]!
+  developers: [Developer!]!
 
   """Game name"""
   name: String!
+  platforms: [Platform!]!
+  publisher: Publisher!
 }
 
 type Platform {
