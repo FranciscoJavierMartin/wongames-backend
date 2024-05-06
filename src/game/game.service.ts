@@ -45,17 +45,14 @@ export class GameService {
 
   public async populate(options: Record<string, string>) {
     try {
-      // const query = new URLSearchParams(options);
-      // const gogApiUrl = `https://catalog.gog.com/v1/catalog?${query.toString()}`;
-      // const res = await fetch(gogApiUrl);
-      // const products: Product[] = (await res.json()).products;
-      // await this.createManyToManyData(products);
+      const query = new URLSearchParams(options);
+      const gogApiUrl = `https://catalog.gog.com/v1/catalog?${query.toString()}`;
+      const res = await fetch(gogApiUrl);
+      const products: Product[] = (await res.json()).products;
+      await this.createManyToManyData(products);
     } catch (error) {
       this.logger.error(error);
     }
-    // const createdGame = new this.gameModel({ name: new Date().toTimeString() });
-    // return createdGame.save();
-    // return await this.categoryService.findAll();
   }
 
   private async createManyToManyData(products: Product[]): Promise<void> {

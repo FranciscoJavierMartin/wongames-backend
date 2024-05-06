@@ -12,8 +12,12 @@ export class CategoryService {
     private categoryModel: Model<Category>,
   ) {}
 
-  create(createCategoryInput: CreateCategoryInput) {
-    return 'This action adds a new category';
+  public async create(createCategoryInput: CreateCategoryInput): Promise<void> {
+    await this.categoryModel.findOneAndUpdate(
+      createCategoryInput,
+      createCategoryInput,
+      { upsert: true },
+    );
   }
 
   public async findAll(): Promise<Category[]> {

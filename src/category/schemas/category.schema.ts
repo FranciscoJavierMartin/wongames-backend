@@ -15,7 +15,10 @@ export class Category {
   slug: string;
 
   @Field(() => [Game])
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Game' }] })
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Game' }],
+    default: [],
+  })
   games: Game[];
 }
 

@@ -12,8 +12,14 @@ export class PublisherService {
     private publisherModel: Model<Publisher>,
   ) {}
 
-  create(createPublisherInput: CreatePublisherInput) {
-    return 'This action adds a new publisher';
+  public async create(
+    createPublisherInput: CreatePublisherInput,
+  ): Promise<void> {
+    await this.publisherModel.findOneAndUpdate(
+      createPublisherInput,
+      createPublisherInput,
+      { upsert: true },
+    );
   }
 
   public async findAll(): Promise<Publisher[]> {

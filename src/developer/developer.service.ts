@@ -12,8 +12,14 @@ export class DeveloperService {
     private developerModel: Model<Developer>,
   ) {}
 
-  create(createDeveloperInput: CreateDeveloperInput) {
-    return 'This action adds a new developer';
+  public async create(
+    createDeveloperInput: CreateDeveloperInput,
+  ): Promise<void> {
+    await this.developerModel.findOneAndUpdate(
+      createDeveloperInput,
+      createDeveloperInput,
+      { upsert: true },
+    );
   }
 
   public async findAll(): Promise<Developer[]> {

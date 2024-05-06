@@ -12,8 +12,12 @@ export class PlatformService {
     private platformModel: Model<Platform>,
   ) {}
 
-  create(createPlatformInput: CreatePlatformInput) {
-    return 'This action adds a new platform';
+  public async create(createPlatformInput: CreatePlatformInput): Promise<void> {
+    await this.platformModel.findOneAndUpdate(
+      createPlatformInput,
+      createPlatformInput,
+      { upsert: true },
+    );
   }
 
   public async findAll(): Promise<Platform[]> {
