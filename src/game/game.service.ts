@@ -2,8 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import slugify from 'slugify';
+import { JSDOM } from 'jsdom';
 import { Game, Rating } from './schemas/game.shema';
-import { UpdateGameInput } from './dto/update-game.input';
 import { CategoryService } from 'src/category/category.service';
 import { DeveloperService } from 'src/developer/developer.service';
 import { PlatformService } from 'src/platform/platform.service';
@@ -120,6 +120,27 @@ export class GameService {
     shortDescription: string;
     rating: Rating;
   }> {
-    return {};
+    const gogSlug = slug.replaceAll('-', '_').toLowerCase();
+    const res = await fetch(`https://www.gog.com/game/${gogSlug}`);
+    const body = await res.text();
+    const dom = new JSDOM(body);
+    const raw_description = dom.window.document.querySelector('.description');
+    const description = raw_description.innerHTML;
+    const shortDescription = raw_description.textContent.slice(0, 160);
+    const ratingElement = dom.window.document.querySelector(
+      '.age-restrictions__icon use',
+    );
+    const rating = ratingElement
+      ? (ratingElement
+          .getAttribute('xlink:href')
+          .replace(/_/g, '')
+          .replace('#', '') as Rating)
+      : Rating.FREE;
+
+    return {
+      shortDescription,
+      description,
+      rating,
+    };
   }
 }
