@@ -24,6 +24,9 @@ export class Game {
   name: string;
 
   @Prop()
+  slug: string;
+
+  @Prop()
   shortDescription: string;
 
   @Prop()
@@ -34,6 +37,9 @@ export class Game {
 
   @Prop()
   releaseDate: Date;
+
+  @Prop()
+  publishedAt: Date;
 
   // TODO: Add proper type
   @Prop({ type: String, enum: Rating, default: Rating.FREE })
