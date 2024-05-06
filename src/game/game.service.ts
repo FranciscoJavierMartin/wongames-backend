@@ -45,7 +45,9 @@ export class GameService {
     try {
       const query = new URLSearchParams(options);
       const gogApiUrl = `https://catalog.gog.com/v1/catalog?${query.toString()}`;
-      return gogApiUrl;
+
+      const res = await fetch(gogApiUrl);
+      const { products } = await res.json();
     } catch (error) {
       this.logger.error(error);
     }
