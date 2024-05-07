@@ -12,7 +12,7 @@ export class PublisherResolver {
   }
 
   @Query(() => Publisher, { name: 'publisher' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.publisherService.findOne(id);
+  findOne(@Args('search', { type: () => String }) search: string) {
+    return this.publisherService.findOne(search);
   }
 }
