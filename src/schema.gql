@@ -3,6 +3,7 @@
 # ------------------------------------------------------
 
 type Category {
+  _id: String!
   games: [Game!]!
   name: String!
   slug: String!
@@ -38,7 +39,7 @@ type Publisher {
 
 type Query {
   categories: [Category!]!
-  category(id: Int!): Category!
+  category(search: String!): Category!
   developer(id: Int!): Developer!
   developers: [Developer!]!
   game(id: Int!): Game!

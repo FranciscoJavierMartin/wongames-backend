@@ -111,6 +111,11 @@ export class GameService {
         releaseDate: new Date(product.releaseDate),
         publishedAt: new Date(),
         ...(await this.getGameInfo(product.slug)),
+        categories: await Promise.all(
+          product.genres.map(
+            async ({ name }) => (await this.categoryService.findOne(name))._id,
+          ),
+        ),
       },
     );
   }
