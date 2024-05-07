@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CreatePublisherInput } from './dto/create-publisher.input';
-import { UpdatePublisherInput } from './dto/update-publisher.input';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Publisher } from './schemas/publisher.schema';
@@ -30,15 +29,11 @@ export class PublisherService {
     return this.publisherModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} publisher`;
-  }
-
-  update(id: number, updatePublisherInput: UpdatePublisherInput) {
-    return `This action updates a #${id} publisher`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} publisher`;
+  public async findOne(search: string): Promise<Publisher> {
+    return this.publisherModel
+      .findOne({
+        $or: [{ name: search }, { slug: search }],
+      })
+      .exec();
   }
 }
