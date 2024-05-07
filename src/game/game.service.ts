@@ -98,7 +98,7 @@ export class GameService {
           slug: slugify(name, { strict: true, lower: true }),
         }),
       ),
-      ...Array.from(developersSet).map((name) =>
+      ...Array.from(platformsSet).map((name) =>
         this.platformService.create({
           name,
           slug: slugify(name, { strict: true, lower: true }),
@@ -144,7 +144,10 @@ export class GameService {
           ),
         ),
       },
-      { upsert: true },
+      {
+        upsert: true,
+        new: true,
+      },
     );
 
     const cover: string = await this.saveImage(

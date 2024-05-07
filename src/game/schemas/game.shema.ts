@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, Float } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { Category } from 'src/category/schemas/category.schema';
@@ -22,19 +22,23 @@ export class Game {
   @Prop({ type: Types.ObjectId })
   _id: Types.ObjectId;
 
-  @Field({ description: 'Game name' })
+  @Field(() => String, { description: 'Game name' })
   @Prop({ isRequired: true })
   name: string;
 
+  @Field(() => String)
   @Prop()
   slug: string;
 
+  @Field(() => String)
   @Prop()
   shortDescription: string;
 
+  @Field(() => String)
   @Prop()
   description: string;
 
+  @Field(() => Float)
   @Prop({ isRequired: true, default: 0 })
   price: number = 0;
 
@@ -44,13 +48,15 @@ export class Game {
   @Prop()
   publishedAt: Date;
 
-  // TODO: Add proper type
+  @Field(() => String)
   @Prop({ type: String, enum: Rating, default: Rating.FREE })
   rating: Rating = Rating.FREE;
 
+  @Field(() => String)
   @Prop()
   cover: string;
 
+  @Field(() => [String])
   @Prop()
   gallery: string[];
 
