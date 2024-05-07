@@ -26,8 +26,12 @@ export class GameService {
     return this.gameModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} game`;
+  public async findOne(search: string): Promise<Game> {
+    return this.gameModel
+      .findOne({
+        $or: [{ name: search }, { slug: search }],
+      })
+      .exec();
   }
 
   public async populate(options: Record<string, string>) {
