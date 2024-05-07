@@ -44,9 +44,9 @@ type Publisher {
 type Query {
   categories: [Category!]!
   category(search: String!): Category!
-  developer(id: Int!): Developer!
+  developer(search: String!): Developer!
   developers: [Developer!]!
-  game(id: Int!): Game!
+  game(search: String!): Game!
   games: [Game!]!
   platform(id: Int!): Platform!
   publisher(id: Int!): Publisher!
