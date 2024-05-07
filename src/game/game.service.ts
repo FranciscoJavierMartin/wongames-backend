@@ -162,9 +162,9 @@ export class GameService {
       product.screenshots
         .slice(0, 5)
         .map(
-          async (url) =>
+          async (url: string, index: number) =>
             await this.saveImage(
-              gameCreated._id.toString(),
+              `${gameCreated._id}_${index}`,
               `${url.replace('{formatter}', 'product_card_v2_mobile_slider_639')}`,
             ),
         ),
