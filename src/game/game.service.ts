@@ -3,12 +3,19 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import slugify from 'slugify';
 import { JSDOM } from 'jsdom';
+import {
+  UploadApiErrorResponse,
+  UploadApiResponse,
+  v2 as cloudinary,
+} from 'cloudinary';
 import { Game, Rating } from './schemas/game.shema';
 import { CategoryService } from 'src/category/category.service';
 import { DeveloperService } from 'src/developer/developer.service';
 import { PlatformService } from 'src/platform/platform.service';
 import { PublisherService } from 'src/publisher/publisher.service';
 import { Product } from './dto/gog.products';
+import { ConfigService } from '@nestjs/config';
+import { EnvVars } from 'src/config';
 
 @Injectable()
 export class GameService {
@@ -20,6 +27,7 @@ export class GameService {
     private readonly developerService: DeveloperService,
     private readonly platformService: PlatformService,
     private readonly publisherService: PublisherService,
+    private readonly configService: ConfigService,
   ) {}
 
   public async findAll(): Promise<Game[]> {
@@ -90,7 +98,7 @@ export class GameService {
           slug: slugify(name, { strict: true, lower: true }),
         }),
       ),
-      ...Array.from(developersSet).map((name) =>
+      ...Array.from(platformsSet).map((name) =>
         this.platformService.create({
           name,
           slug: slugify(name, { strict: true, lower: true }),
@@ -101,12 +109,12 @@ export class GameService {
 
   private async createGames(products: Product[]): Promise<void> {
     await Promise.all(
-      products.map(async (product: Product) => this.create(product)),
+      products.map(async (product: Product) => this.createGame(product)),
     );
   }
 
-  private async create(product: Product) {
-    this.gameModel.findOneAndUpdate(
+  private async createGame(product: Product): Promise<void> {
+    const gameCreated = await this.gameModel.findOneAndUpdate(
       { name: product.title },
       {
         name: product.title,
@@ -136,7 +144,41 @@ export class GameService {
           ),
         ),
       },
+      {
+        upsert: true,
+        new: true,
+      },
     );
+
+    const cover: string = await this.saveImage(
+      gameCreated._id.toString(),
+      product.coverHorizontal,
+    ).catch((error) => {
+      this.logger.error(error);
+      return '';
+    });
+
+    const gallery: string[] = await Promise.all(
+      product.screenshots
+        .slice(0, 5)
+        .map(
+          async (url: string, index: number) =>
+            await this.saveImage(
+              `${gameCreated._id}_${index}`,
+              `${url.replace('{formatter}', 'product_card_v2_mobile_slider_639')}`,
+            ),
+        ),
+    ).catch((error) => {
+      this.logger.error(error);
+      return [];
+    });
+
+    await this.gameModel.findByIdAndUpdate(gameCreated._id, {
+      cover,
+      gallery,
+    });
+
+    this.logger.log(`${gameCreated.name} game created`);
   }
 
   private async getGameInfo(slug: string): Promise<{
@@ -166,5 +208,26 @@ export class GameService {
       description,
       rating,
     };
+  }
+
+  private async saveImage(gameId: string, imageUrl: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      cloudinary.uploader.upload(
+        imageUrl,
+        {
+          public_id: gameId,
+          resource_type: 'image',
+          overwrite: true,
+          folder: this.configService.get(EnvVars.CLOUDINARY_FOLDER),
+        },
+        (error?: UploadApiErrorResponse, result?: UploadApiResponse) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result.url);
+          }
+        },
+      );
+    });
   }
 }

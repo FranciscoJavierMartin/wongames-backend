@@ -18,6 +18,9 @@ import {
   Publisher,
   PublisherSchema,
 } from 'src/publisher/schemas/publisher.schema';
+import { ConfigService } from '@nestjs/config';
+import { ConfigOptions, v2 as cloudinary } from 'cloudinary';
+import { EnvVars } from 'src/config';
 
 @Module({
   imports: [
@@ -33,7 +36,20 @@ import {
     PlatformModule,
     PublisherModule,
   ],
-  providers: [GameResolver, GameService],
+  providers: [
+    {
+      inject: [ConfigService],
+      provide: 'Cloudinary',
+      useFactory: (configService: ConfigService): ConfigOptions =>
+        cloudinary.config({
+          cloud_name: configService.get(EnvVars.CLOUDINARY_CLOUD_NAME),
+          api_key: configService.get(EnvVars.CLOUDINARY_API_KEY),
+          api_secret: configService.get(EnvVars.CLOUDINARY_API_SECRET),
+        }),
+    },
+    GameResolver,
+    GameService,
+  ],
   controllers: [GameController],
 })
 export class GameModule {}
