@@ -120,6 +120,21 @@ export class GameService {
             async ({ name }) => (await this.categoryService.findOne(name))._id,
           ),
         ),
+        platforms: await Promise.all(
+          product.operatingSystems.map(
+            async (name) => (await this.platformService.findOne(name))._id,
+          ),
+        ),
+        developers: await Promise.all(
+          product.developers.map(
+            async (name) => (await this.developerService.findOne(name))._id,
+          ),
+        ),
+        publisher: await Promise.all(
+          product.publishers.map(
+            async (name) => (await this.publisherService.findOne(name))._id,
+          ),
+        ),
       },
     );
   }
