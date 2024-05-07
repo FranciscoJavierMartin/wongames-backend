@@ -3,7 +3,11 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import slugify from 'slugify';
 import { JSDOM } from 'jsdom';
-import { v2 as cloudinary } from 'cloudinary';
+import {
+  UploadApiErrorResponse,
+  UploadApiResponse,
+  v2 as cloudinary,
+} from 'cloudinary';
 import { Game, Rating } from './schemas/game.shema';
 import { CategoryService } from 'src/category/category.service';
 import { DeveloperService } from 'src/developer/developer.service';
@@ -142,6 +146,34 @@ export class GameService {
       },
       { upsert: true },
     );
+
+    const cover: string = await this.saveImage(
+      gameCreated._id.toString(),
+      product.coverHorizontal,
+    ).catch((error) => {
+      this.logger.error(error);
+      return '';
+    });
+
+    const gallery: string[] = await Promise.all(
+      product.screenshots
+        .slice(0, 5)
+        .map(
+          async (url) =>
+            await this.saveImage(
+              gameCreated._id.toString(),
+              `${url.replace('{formatter}', 'product_card_v2_mobile_slider_639')}`,
+            ),
+        ),
+    ).catch((error) => {
+      this.logger.error(error);
+      return [];
+    });
+
+    await this.gameModel.findByIdAndUpdate(gameCreated._id, {
+      cover,
+      gallery,
+    });
   }
 
   private async getGameInfo(slug: string): Promise<{
@@ -173,15 +205,24 @@ export class GameService {
     };
   }
 
-  public async saveImage(gameId: string) {
-    const coverHorizontal =
-      'https://images.gog-statics.com/45a284386e693f1576b96d98a0023a7905d3956c6f9aa913d3fe5d09a5994bee.png';
-
-    await cloudinary.uploader.upload(coverHorizontal, {
-      public_id: gameId,
-      resource_type: 'image',
-      overwrite: true,
-      folder: this.configService.get(EnvVars.CLOUDINARY_FOLDER),
+  private async saveImage(gameId: string, imageUrl: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      cloudinary.uploader.upload(
+        imageUrl,
+        {
+          public_id: gameId,
+          resource_type: 'image',
+          overwrite: true,
+          folder: this.configService.get(EnvVars.CLOUDINARY_FOLDER),
+        },
+        (error?: UploadApiErrorResponse, result?: UploadApiResponse) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result.url);
+          }
+        },
+      );
     });
   }
 }
