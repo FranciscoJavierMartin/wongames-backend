@@ -48,6 +48,6 @@ type Query {
   developers: [Developer!]!
   game(search: String!): Game!
   games: [Game!]!
-  platform(id: Int!): Platform!
-  publisher(id: Int!): Publisher!
+  platform(search: String!): Platform!
+  publisher(search: String!): Publisher!
 }

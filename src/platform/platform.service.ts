@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CreatePlatformInput } from './dto/create-platform.input';
-import { UpdatePlatformInput } from './dto/update-platform.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { Platform } from './schemas/platform.schema';
 import { Model } from 'mongoose';
@@ -28,15 +27,11 @@ export class PlatformService {
     return this.platformModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} platform`;
-  }
-
-  update(id: number, updatePlatformInput: UpdatePlatformInput) {
-    return `This action updates a #${id} platform`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} platform`;
+  public async findOne(search: string): Promise<Platform> {
+    return this.platformModel
+      .findOne({
+        $or: [{ name: search }, { slug: search }],
+      })
+      .exec();
   }
 }
