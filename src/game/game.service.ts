@@ -3,12 +3,15 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import slugify from 'slugify';
 import { JSDOM } from 'jsdom';
+import { v2 as cloudinary } from 'cloudinary';
 import { Game, Rating } from './schemas/game.shema';
 import { CategoryService } from 'src/category/category.service';
 import { DeveloperService } from 'src/developer/developer.service';
 import { PlatformService } from 'src/platform/platform.service';
 import { PublisherService } from 'src/publisher/publisher.service';
 import { Product } from './dto/gog.products';
+import { ConfigService } from '@nestjs/config';
+import { EnvVars } from 'src/config';
 
 @Injectable()
 export class GameService {
@@ -20,6 +23,7 @@ export class GameService {
     private readonly developerService: DeveloperService,
     private readonly platformService: PlatformService,
     private readonly publisherService: PublisherService,
+    private readonly configService: ConfigService,
   ) {}
 
   public async findAll(): Promise<Game[]> {
@@ -101,12 +105,12 @@ export class GameService {
 
   private async createGames(products: Product[]): Promise<void> {
     await Promise.all(
-      products.map(async (product: Product) => this.create(product)),
+      products.map(async (product: Product) => this.createGame(product)),
     );
   }
 
-  private async create(product: Product) {
-    this.gameModel.findOneAndUpdate(
+  private async createGame(product: Product): Promise<void> {
+    const gameCreated = await this.gameModel.findOneAndUpdate(
       { name: product.title },
       {
         name: product.title,
@@ -136,6 +140,7 @@ export class GameService {
           ),
         ),
       },
+      { upsert: true },
     );
   }
 
@@ -166,5 +171,17 @@ export class GameService {
       description,
       rating,
     };
+  }
+
+  public async saveImage(gameId: string) {
+    const coverHorizontal =
+      'https://images.gog-statics.com/45a284386e693f1576b96d98a0023a7905d3956c6f9aa913d3fe5d09a5994bee.png';
+
+    await cloudinary.uploader.upload(coverHorizontal, {
+      public_id: gameId,
+      resource_type: 'image',
+      overwrite: true,
+      folder: this.configService.get(EnvVars.CLOUDINARY_FOLDER),
+    });
   }
 }

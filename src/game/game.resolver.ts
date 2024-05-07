@@ -13,6 +13,7 @@ export class GameResolver {
 
   @Query(() => Game, { name: 'game' })
   findOne(@Args('search', { type: () => String }) search: string) {
-    return this.gameService.findOne(search);
+    // return this.gameService.findOne(search);
+    return this.gameService.saveImage(search);
   }
 }
