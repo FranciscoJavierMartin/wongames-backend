@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Args } from '@nestjs/graphql';
 import { DeveloperService } from './developer.service';
 import { Developer } from './schemas/developer.schema';
 
@@ -12,7 +12,7 @@ export class DeveloperResolver {
   }
 
   @Query(() => Developer, { name: 'developer' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.developerService.findOne(id);
+  findOne(@Args('search', { type: () => String }) search: string) {
+    return this.developerService.findOne(search);
   }
 }

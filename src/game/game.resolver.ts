@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Args } from '@nestjs/graphql';
 import { GameService } from './game.service';
 import { Game } from './schemas/game.shema';
 
@@ -12,7 +12,7 @@ export class GameResolver {
   }
 
   @Query(() => Game, { name: 'game' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.gameService.findOne(id);
+  findOne(@Args('search', { type: () => String }) search: string) {
+    return this.gameService.findOne(search);
   }
 }

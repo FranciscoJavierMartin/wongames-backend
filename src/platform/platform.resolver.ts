@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Args } from '@nestjs/graphql';
 import { PlatformService } from './platform.service';
 import { Platform } from './schemas/platform.schema';
 
@@ -12,7 +12,7 @@ export class PlatformResolver {
   }
 
   @Query(() => Platform, { name: 'platform' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.platformService.findOne(id);
+  findOne(@Args('search', { type: () => String }) search: string) {
+    return this.platformService.findOne(search);
   }
 }

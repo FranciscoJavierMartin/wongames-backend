@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Args } from '@nestjs/graphql';
 import { CategoryService } from './category.service';
 import { Category } from './schemas/category.schema';
 
@@ -12,7 +12,7 @@ export class CategoryResolver {
   }
 
   @Query(() => Category, { name: 'category' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.categoryService.findOne(id);
+  findOne(@Args('search', { type: () => String }) search: string) {
+    return this.categoryService.findOne(search);
   }
 }

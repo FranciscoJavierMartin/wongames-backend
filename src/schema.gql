@@ -3,31 +3,46 @@
 # ------------------------------------------------------
 
 type Category {
+  _id: String!
   games: [Game!]!
   name: String!
   slug: String!
 }
 
 type Developer {
+  _id: String!
   games: [Game!]!
   name: String!
   slug: String!
 }
 
 type Game {
+  _id: String!
   categories: [Category!]!
+  cover: String!
+  description: String!
+  developers: [Developer!]!
+  gallery: [String!]!
 
   """Game name"""
   name: String!
+  platforms: [Platform!]!
+  price: Float!
+  publisher: Publisher!
+  rating: String!
+  shortDescription: String!
+  slug: String!
 }
 
 type Platform {
+  _id: String!
   games: [Game!]!
   name: String!
   slug: String!
 }
 
 type Publisher {
+  _id: String!
   games: [Game!]!
   name: String!
   slug: String!
@@ -35,11 +50,11 @@ type Publisher {
 
 type Query {
   categories: [Category!]!
-  category(id: Int!): Category!
-  developer(id: Int!): Developer!
+  category(search: String!): Category!
+  developer(search: String!): Developer!
   developers: [Developer!]!
-  game(id: Int!): Game!
+  game(search: String!): Game!
   games: [Game!]!
-  platform(id: Int!): Platform!
-  publisher(id: Int!): Publisher!
+  platform(search: String!): Platform!
+  publisher(search: String!): Publisher!
 }
