@@ -1,12 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 import { Category } from 'src/category/schemas/category.schema';
 import { Developer } from 'src/developer/schemas/developer.schema';
 import { Platform } from 'src/platform/schemas/platform.schema';
 import { Publisher } from 'src/publisher/schemas/publisher.schema';
 
-// TODO: Refactor
 export enum Rating {
   FREE = 'FREE',
   pegi3 = 'pegi3',
@@ -19,6 +18,10 @@ export enum Rating {
 @ObjectType()
 @Schema()
 export class Game {
+  @Field(() => String)
+  @Prop({ type: Types.ObjectId })
+  _id: Types.ObjectId;
+
   @Field({ description: 'Game name' })
   @Prop({ isRequired: true })
   name: string;
@@ -52,19 +55,19 @@ export class Game {
   gallery: string[];
 
   @Field(() => [Category])
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Category' }], default: [] })
   categories: Category[];
 
   @Field(() => [Platform])
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Platform' }] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Platform' }], default: [] })
   platforms: Platform[];
 
   @Field(() => [Developer])
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Developer' }] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Developer' }], default: [] })
   developers: Developer[];
 
   @Field(() => Publisher)
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Publisher' })
+  @Prop({ type: Types.ObjectId, ref: 'Publisher' })
   publisher: Publisher;
 }
 

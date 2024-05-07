@@ -10,12 +10,14 @@ type Category {
 }
 
 type Developer {
+  _id: String!
   games: [Game!]!
   name: String!
   slug: String!
 }
 
 type Game {
+  _id: String!
   categories: [Category!]!
   developers: [Developer!]!
 
@@ -26,12 +28,14 @@ type Game {
 }
 
 type Platform {
+  _id: String!
   games: [Game!]!
   name: String!
   slug: String!
 }
 
 type Publisher {
+  _id: String!
   games: [Game!]!
   name: String!
   slug: String!
