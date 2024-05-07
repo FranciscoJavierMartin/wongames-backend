@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { Category } from './schemas/category.schema';
 
@@ -21,6 +21,17 @@ export class CategoryService {
     );
 
     this.logger.log(`Created ${createCategoryInput.name} category`);
+  }
+
+  public async addGame(
+    categoryId: Types.ObjectId,
+    gameId: Types.ObjectId,
+  ): Promise<void> {
+    await this.categoryModel.findByIdAndUpdate(categoryId, {
+      $push: {
+        games: gameId,
+      },
+    });
   }
 
   public async findAll(): Promise<Category[]> {

@@ -31,7 +31,13 @@ export class GameService {
   ) {}
 
   public async findAll(): Promise<Game[]> {
-    return this.gameModel.find().exec();
+    const t = await this.gameModel
+      .find()
+      .populate('categories')
+      .limit(1)
+      .exec();
+    this.logger.debug(t);
+    return t;
   }
 
   public async findOne(search: string): Promise<Game> {
@@ -177,6 +183,14 @@ export class GameService {
       cover,
       gallery,
     });
+
+    // TODO: Add game to category, developer, platform and publisher
+
+    await Promise.all(
+      gameCreated.categories.map((category) =>
+        this.categoryService.addGame(category._id, gameCreated._id),
+      ),
+    );
 
     this.logger.log(`${gameCreated.name} game created`);
   }
