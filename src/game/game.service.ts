@@ -177,6 +177,8 @@ export class GameService {
       cover,
       gallery,
     });
+
+    this.logger.log(`${gameCreated.name} game created`);
   }
 
   private async getGameInfo(slug: string): Promise<{
