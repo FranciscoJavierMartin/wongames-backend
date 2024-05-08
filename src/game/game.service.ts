@@ -16,6 +16,10 @@ import { PublisherService } from 'src/publisher/publisher.service';
 import { Product } from './dto/gog.products';
 import { ConfigService } from '@nestjs/config';
 import { EnvVars } from 'src/config';
+import { Category } from 'src/category/schemas/category.schema';
+import { Publisher } from 'src/publisher/schemas/publisher.schema';
+import { Developer } from 'src/developer/schemas/developer.schema';
+import { Platform } from 'src/platform/schemas/platform.schema';
 
 @Injectable()
 export class GameService {
@@ -31,7 +35,13 @@ export class GameService {
   ) {}
 
   public async findAll(): Promise<Game[]> {
-    return this.gameModel.find().exec();
+    return this.gameModel
+      .find()
+      .populate('categories', null, Category.name)
+      .populate('developers', null, Developer.name)
+      .populate('platforms', null, Platform.name)
+      .populate('publishers', null, Publisher.name)
+      .exec();
   }
 
   public async findOne(search: string): Promise<Game> {
@@ -39,6 +49,10 @@ export class GameService {
       .findOne({
         $or: [{ name: search }, { slug: search }],
       })
+      .populate('categories', null, Category.name)
+      .populate('developers', null, Developer.name)
+      .populate('platforms', null, Platform.name)
+      .populate('publishers', null, Publisher.name)
       .exec();
   }
 
@@ -138,7 +152,7 @@ export class GameService {
             async (name) => (await this.developerService.findOne(name))._id,
           ),
         ),
-        publisher: await Promise.all(
+        publishers: await Promise.all(
           product.publishers.map(
             async (name) => (await this.publisherService.findOne(name))._id,
           ),
@@ -177,6 +191,30 @@ export class GameService {
       cover,
       gallery,
     });
+
+    await Promise.all(
+      gameCreated.categories.map((category) =>
+        this.categoryService.addGame(category._id, gameCreated._id),
+      ),
+    );
+
+    await Promise.all(
+      gameCreated.developers.map((developer) =>
+        this.developerService.addGame(developer._id, gameCreated._id),
+      ),
+    );
+
+    await Promise.all(
+      gameCreated.platforms.map((platform) =>
+        this.platformService.addGame(platform._id, gameCreated._id),
+      ),
+    );
+
+    await Promise.all(
+      gameCreated.publishers.map((publisher) =>
+        this.publisherService.addGame(publisher._id, gameCreated._id),
+      ),
+    );
 
     this.logger.log(`${gameCreated.name} game created`);
   }

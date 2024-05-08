@@ -1,8 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { CreatePublisherInput } from './dto/create-publisher.input';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { CreatePublisherInput } from './dto/create-publisher.input';
 import { Publisher } from './schemas/publisher.schema';
+import { Game } from 'src/game/schemas/game.shema';
 
 @Injectable()
 export class PublisherService {
@@ -25,8 +26,19 @@ export class PublisherService {
     this.logger.log(`Created ${createPublisherInput.name} publisher`);
   }
 
+  public async addGame(
+    publisherId: Types.ObjectId,
+    gameId: Types.ObjectId,
+  ): Promise<void> {
+    await this.publisherModel.findByIdAndUpdate(publisherId, {
+      $push: {
+        games: gameId,
+      },
+    });
+  }
+
   public async findAll(): Promise<Publisher[]> {
-    return this.publisherModel.find().exec();
+    return this.publisherModel.find().populate('games', null, Game.name).exec();
   }
 
   public async findOne(search: string): Promise<Publisher> {
@@ -34,6 +46,7 @@ export class PublisherService {
       .findOne({
         $or: [{ name: search }, { slug: search }],
       })
+      .populate('games', null, Game.name)
       .exec();
   }
 }

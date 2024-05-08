@@ -6,7 +6,7 @@ import { Publisher } from './schemas/publisher.schema';
 export class PublisherResolver {
   constructor(private readonly publisherService: PublisherService) {}
 
-  @Query(() => [Publisher], { name: 'publisher' })
+  @Query(() => [Publisher], { name: 'publishers' })
   findAll() {
     return this.publisherService.findAll();
   }

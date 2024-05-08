@@ -9,6 +9,11 @@ type Category {
   slug: String!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Developer {
   _id: String!
   games: [Game!]!
@@ -28,8 +33,10 @@ type Game {
   name: String!
   platforms: [Platform!]!
   price: Float!
-  publisher: Publisher!
-  rating: String!
+  publishedAt: DateTime!
+  publishers: [Publisher!]!
+  rating: Rating!
+  releaseDate: DateTime!
   shortDescription: String!
   slug: String!
 }
@@ -56,5 +63,16 @@ type Query {
   game(search: String!): Game!
   games: [Game!]!
   platform(search: String!): Platform!
+  platforms: [Platform!]!
   publisher(search: String!): Publisher!
+  publishers: [Publisher!]!
+}
+
+enum Rating {
+  FREE
+  pegi3
+  pegi7
+  pegi12
+  pegi16
+  pegi18
 }

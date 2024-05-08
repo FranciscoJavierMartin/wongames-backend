@@ -1,4 +1,10 @@
-import { Field, ObjectType, Float } from '@nestjs/graphql';
+import {
+  Field,
+  ObjectType,
+  Float,
+  registerEnumType,
+  GraphQLISODateTime,
+} from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { Category } from 'src/category/schemas/category.schema';
@@ -14,6 +20,10 @@ export enum Rating {
   pegi16 = 'pegi16',
   pegi18 = 'pegi18',
 }
+
+registerEnumType(Rating, {
+  name: 'Rating',
+});
 
 @ObjectType()
 @Schema()
@@ -42,13 +52,15 @@ export class Game {
   @Prop({ isRequired: true, default: 0 })
   price: number = 0;
 
+  @Field(() => GraphQLISODateTime)
   @Prop()
   releaseDate: Date;
 
+  @Field(() => GraphQLISODateTime)
   @Prop()
   publishedAt: Date;
 
-  @Field(() => String)
+  @Field(() => Rating)
   @Prop({ type: String, enum: Rating, default: Rating.FREE })
   rating: Rating = Rating.FREE;
 
@@ -72,9 +84,9 @@ export class Game {
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Developer' }], default: [] })
   developers: Developer[];
 
-  @Field(() => Publisher)
-  @Prop({ type: Types.ObjectId, ref: 'Publisher' })
-  publisher: Publisher;
+  @Field(() => [Publisher])
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Publisher' }], default: [] })
+  publishers: Publisher[];
 }
 
 export type GameDocument = HydratedDocument<Game>;
