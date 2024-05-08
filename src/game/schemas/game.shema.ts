@@ -84,6 +84,7 @@ export class Game {
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Developer' }], default: [] })
   developers: Developer[];
 
+  // TODO: Convert to array
   @Field(() => Publisher)
   @Prop({ type: Types.ObjectId, ref: 'Publisher' })
   publisher: Publisher;

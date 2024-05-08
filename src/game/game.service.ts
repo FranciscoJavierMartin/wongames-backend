@@ -16,6 +16,8 @@ import { PublisherService } from 'src/publisher/publisher.service';
 import { Product } from './dto/gog.products';
 import { ConfigService } from '@nestjs/config';
 import { EnvVars } from 'src/config';
+import { Category } from 'src/category/schemas/category.schema';
+import { Publisher } from 'src/publisher/schemas/publisher.schema';
 
 @Injectable()
 export class GameService {
@@ -33,8 +35,10 @@ export class GameService {
   public async findAll(): Promise<Game[]> {
     const t = await this.gameModel
       .find()
-      .populate('categories')
+      .populate('categories', null, Category.name)
+      .populate('publisher', null, Publisher.name)
       .limit(1)
+      .select('name categories publisher')
       .exec();
     this.logger.debug(t);
     return t;
