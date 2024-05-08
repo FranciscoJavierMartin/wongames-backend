@@ -18,6 +18,8 @@ import { ConfigService } from '@nestjs/config';
 import { EnvVars } from 'src/config';
 import { Category } from 'src/category/schemas/category.schema';
 import { Publisher } from 'src/publisher/schemas/publisher.schema';
+import { Developer } from 'src/developer/schemas/developer.schema';
+import { Platform } from 'src/platform/schemas/platform.schema';
 
 @Injectable()
 export class GameService {
@@ -36,9 +38,9 @@ export class GameService {
     const t = await this.gameModel
       .find()
       .populate('categories', null, Category.name)
-      .populate('publisher', null, Publisher.name)
-      .limit(1)
-      .select('name categories publisher')
+      .populate('developers', null, Developer.name)
+      .populate('platforms', null, Platform.name)
+      .populate('publishers', null, Publisher.name)
       .exec();
     this.logger.debug(t);
     return t;
