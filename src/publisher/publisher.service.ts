@@ -26,10 +26,10 @@ export class PublisherService {
   }
 
   public async addGame(
-    categoryId: Types.ObjectId,
+    publisherId: Types.ObjectId,
     gameId: Types.ObjectId,
   ): Promise<void> {
-    await this.publisherModel.findByIdAndUpdate(categoryId, {
+    await this.publisherModel.findByIdAndUpdate(publisherId, {
       $push: {
         games: gameId,
       },

@@ -148,7 +148,7 @@ export class GameService {
             async (name) => (await this.developerService.findOne(name))._id,
           ),
         ),
-        publisher: await Promise.all(
+        publishers: await Promise.all(
           product.publishers.map(
             async (name) => (await this.publisherService.findOne(name))._id,
           ),
@@ -187,8 +187,6 @@ export class GameService {
       cover,
       gallery,
     });
-
-    // TODO: Add game to developer, platform and publisher
 
     await Promise.all(
       gameCreated.categories.map((category) =>
