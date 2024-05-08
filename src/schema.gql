@@ -34,7 +34,7 @@ type Game {
   platforms: [Platform!]!
   price: Float!
   publishedAt: DateTime!
-  publisher: Publisher!
+  publishers: [Publisher!]!
   rating: Rating!
   releaseDate: DateTime!
   shortDescription: String!

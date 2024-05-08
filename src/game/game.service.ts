@@ -208,6 +208,12 @@ export class GameService {
       ),
     );
 
+    await Promise.all(
+      gameCreated.publishers.map((publisher) =>
+        this.publisherService.addGame(publisher._id, gameCreated._id),
+      ),
+    );
+
     this.logger.log(`${gameCreated.name} game created`);
   }
 
