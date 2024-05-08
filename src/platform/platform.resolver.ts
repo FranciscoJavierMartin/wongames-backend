@@ -6,7 +6,7 @@ import { Platform } from './schemas/platform.schema';
 export class PlatformResolver {
   constructor(private readonly platformService: PlatformService) {}
 
-  @Query(() => [Platform], { name: 'platform' })
+  @Query(() => [Platform], { name: 'platforms' })
   findAll() {
     return this.platformService.findAll();
   }

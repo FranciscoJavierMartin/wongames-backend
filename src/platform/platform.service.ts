@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { CreatePlatformInput } from './dto/create-platform.input';
 import { Platform } from './schemas/platform.schema';
+import { Game } from 'src/game/schemas/game.shema';
 
 @Injectable()
 export class PlatformService {
@@ -35,7 +36,7 @@ export class PlatformService {
   }
 
   public async findAll(): Promise<Platform[]> {
-    return this.platformModel.find().exec();
+    return this.platformModel.find().populate('games', null, Game.name).exec();
   }
 
   public async findOne(search: string): Promise<Platform> {
@@ -43,6 +44,7 @@ export class PlatformService {
       .findOne({
         $or: [{ name: search }, { slug: search }],
       })
+      .populate('games', null, Game.name)
       .exec();
   }
 }

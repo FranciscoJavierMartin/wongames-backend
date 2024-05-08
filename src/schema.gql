@@ -63,6 +63,7 @@ type Query {
   game(search: String!): Game!
   games: [Game!]!
   platform(search: String!): Platform!
+  platforms: [Platform!]!
   publisher(search: String!): Publisher!
 }
 
