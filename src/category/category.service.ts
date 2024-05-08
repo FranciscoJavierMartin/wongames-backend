@@ -44,6 +44,7 @@ export class CategoryService {
       .findOne({
         $or: [{ name: search }, { slug: search }],
       })
+      .populate('games', null, Game.name)
       .exec();
   }
 }
