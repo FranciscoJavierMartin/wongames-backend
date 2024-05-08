@@ -65,6 +65,7 @@ type Query {
   platform(search: String!): Platform!
   platforms: [Platform!]!
   publisher(search: String!): Publisher!
+  publishers: [Publisher!]!
 }
 
 enum Rating {
