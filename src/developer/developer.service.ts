@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CreateDeveloperInput } from './dto/create-developer.input';
 import { Developer } from './schemas/developer.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
@@ -23,6 +23,17 @@ export class DeveloperService {
     );
 
     this.logger.log(`Created ${createDeveloperInput.name} developer`);
+  }
+
+  public async addGame(
+    developerId: Types.ObjectId,
+    gameId: Types.ObjectId,
+  ): Promise<void> {
+    await this.developerModel.findByIdAndUpdate(developerId, {
+      $push: {
+        games: gameId,
+      },
+    });
   }
 
   public async findAll(): Promise<Developer[]> {

@@ -188,11 +188,17 @@ export class GameService {
       gallery,
     });
 
-    // TODO: Add game to category, developer, platform and publisher
+    // TODO: Add game to developer, platform and publisher
 
     await Promise.all(
       gameCreated.categories.map((category) =>
         this.categoryService.addGame(category._id, gameCreated._id),
+      ),
+    );
+
+    await Promise.all(
+      gameCreated.developers.map((developer) =>
+        this.developerService.addGame(developer._id, gameCreated._id),
       ),
     );
 
