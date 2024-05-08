@@ -42,7 +42,7 @@ export class GameService {
       .populate('platforms', null, Platform.name)
       .populate('publishers', null, Publisher.name)
       .exec();
-    this.logger.debug(t);
+
     return t;
   }
 
@@ -51,6 +51,10 @@ export class GameService {
       .findOne({
         $or: [{ name: search }, { slug: search }],
       })
+      .populate('categories', null, Category.name)
+      .populate('developers', null, Developer.name)
+      .populate('platforms', null, Platform.name)
+      .populate('publishers', null, Publisher.name)
       .exec();
   }
 
