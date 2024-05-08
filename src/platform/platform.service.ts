@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { CreatePlatformInput } from './dto/create-platform.input';
 import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
+import { CreatePlatformInput } from './dto/create-platform.input';
 import { Platform } from './schemas/platform.schema';
-import { Model } from 'mongoose';
 
 @Injectable()
 export class PlatformService {
@@ -21,6 +21,17 @@ export class PlatformService {
     );
 
     this.logger.log(`Created ${createPlatformInput.name} platform`);
+  }
+
+  public async addGame(
+    platformId: Types.ObjectId,
+    gameId: Types.ObjectId,
+  ): Promise<void> {
+    await this.platformModel.findByIdAndUpdate(platformId, {
+      $push: {
+        games: gameId,
+      },
+    });
   }
 
   public async findAll(): Promise<Platform[]> {

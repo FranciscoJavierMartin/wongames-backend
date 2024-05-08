@@ -202,6 +202,12 @@ export class GameService {
       ),
     );
 
+    await Promise.all(
+      gameCreated.platforms.map((platform) =>
+        this.platformService.addGame(platform._id, gameCreated._id),
+      ),
+    );
+
     this.logger.log(`${gameCreated.name} game created`);
   }
 
