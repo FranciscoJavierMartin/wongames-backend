@@ -35,15 +35,13 @@ export class GameService {
   ) {}
 
   public async findAll(): Promise<Game[]> {
-    const t = await this.gameModel
+    return this.gameModel
       .find()
       .populate('categories', null, Category.name)
       .populate('developers', null, Developer.name)
       .populate('platforms', null, Platform.name)
       .populate('publishers', null, Publisher.name)
       .exec();
-
-    return t;
   }
 
   public async findOne(search: string): Promise<Game> {
