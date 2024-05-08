@@ -8,8 +8,6 @@ COPY ./package*.json .
 
 RUN npm install
 
-# Test something like this
-# CMD [ "sh", "-c", "npm install && npm run start:dev" ]
 CMD [ "npm", "run", "start:dev" ]
 
 EXPOSE 27017 7101
