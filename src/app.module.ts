@@ -38,4 +38,5 @@ import { PlatformModule } from './platform/platform.module';
   ],
 })
 export class AppModule {}
+// TODO: Remove
 // 'mongodb://db:27017/wongames'
