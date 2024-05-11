@@ -66,6 +66,23 @@ export class GameService {
       await this.createGames(products);
     } catch (error) {
       this.logger.error(error);
+    } finally {
+      this.logger.log('Finished populate');
+    }
+  }
+
+  public async purge(): Promise<void> {
+    try {
+      await this.purgeImages();
+      await this.gameModel.deleteMany();
+      await this.categoryService.purge();
+      await this.developerService.purge();
+      await this.platformService.purge();
+      await this.publisherService.purge();
+    } catch (error) {
+      this.logger.error(error);
+    } finally {
+      this.logger.log('Finished purge');
     }
   }
 
@@ -165,7 +182,7 @@ export class GameService {
     );
 
     const cover: string = await this.saveImage(
-      gameCreated._id.toString(),
+      gameCreated.slug,
       product.coverHorizontal,
     ).catch((error) => {
       this.logger.error(error);
@@ -178,7 +195,7 @@ export class GameService {
         .map(
           async (url: string, index: number) =>
             await this.saveImage(
-              `${gameCreated._id}_${index}`,
+              `${gameCreated.slug}___${index}`,
               `${url.replace('{formatter}', 'product_card_v2_mobile_slider_639')}`,
             ),
         ),
@@ -248,12 +265,12 @@ export class GameService {
     };
   }
 
-  private async saveImage(gameId: string, imageUrl: string): Promise<string> {
+  private async saveImage(gameSlug: string, imageUrl: string): Promise<string> {
     return new Promise((resolve, reject) => {
       cloudinary.uploader.upload(
         imageUrl,
         {
-          public_id: gameId,
+          public_id: gameSlug,
           resource_type: 'image',
           overwrite: true,
           folder: this.configService.get(EnvVars.CLOUDINARY_FOLDER),
@@ -267,5 +284,35 @@ export class GameService {
         },
       );
     });
+  }
+
+  private async purgeImages(): Promise<void> {
+    const gamesWithImages = await this.gameModel.find({
+      $or: [{ cover: { $not: { $eq: '' } } }, { gallery: { $ne: [] } }],
+    });
+
+    const gamesList = gamesWithImages.flatMap((game) => [
+      game.slug,
+      ...game.gallery.map((_, index: number) => `${game.slug}___${index}`),
+    ]);
+
+    try {
+      await Promise.allSettled(
+        gamesList.map(
+          async (publicId) =>
+            await cloudinary.uploader.destroy(
+              `${this.configService.get(EnvVars.CLOUDINARY_FOLDER)}/${publicId}`,
+              {
+                invalidate: true,
+                resource_type: 'image',
+              },
+            ),
+        ),
+      );
+    } catch (error) {
+      this.logger.error(error);
+    } finally {
+      this.logger.log('Finished image purge');
+    }
   }
 }

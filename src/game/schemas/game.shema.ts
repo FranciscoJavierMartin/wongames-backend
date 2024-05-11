@@ -65,11 +65,11 @@ export class Game {
   rating: Rating = Rating.FREE;
 
   @Field(() => String)
-  @Prop()
+  @Prop({ default: '' })
   cover: string;
 
   @Field(() => [String])
-  @Prop()
+  @Prop({ default: [] })
   gallery: string[];
 
   @Field(() => [Category])
