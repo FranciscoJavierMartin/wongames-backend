@@ -66,16 +66,24 @@ export class GameService {
       await this.createGames(products);
     } catch (error) {
       this.logger.error(error);
+    } finally {
+      this.logger.log('Finished populate');
     }
   }
 
   public async purge(): Promise<void> {
-    await this.purgeImages();
-    await this.gameModel.deleteMany();
-    await this.categoryService.purge();
-    await this.developerService.purge();
-    await this.platformService.purge();
-    await this.publisherService.purge();
+    try {
+      await this.purgeImages();
+      await this.gameModel.deleteMany();
+      await this.categoryService.purge();
+      await this.developerService.purge();
+      await this.platformService.purge();
+      await this.publisherService.purge();
+    } catch (error) {
+      this.logger.error(error);
+    } finally {
+      this.logger.log('Finished purge');
+    }
   }
 
   private async createManyToManyData(products: Product[]): Promise<void> {
@@ -283,16 +291,28 @@ export class GameService {
       $or: [{ cover: { $not: { $eq: '' } } }, { gallery: { $ne: [] } }],
     });
 
-    await Promise.all([
-      gamesWithImages.map(async (game) => [
-        cloudinary.uploader.destroy(game.slug, {
-          invalidate: true,
-          resource_type: 'image',
-        }),
-        ...game.gallery.map((_, index: number) =>
-          cloudinary.uploader.destroy(`${game.slug}___${index}`),
-        ),
-      ]),
+    const gamesList = gamesWithImages.flatMap((game) => [
+      game.slug,
+      ...game.gallery.map((_, index: number) => `${game.slug}___${index}`),
     ]);
+
+    try {
+      await Promise.allSettled(
+        gamesList.map(
+          async (publicId) =>
+            await cloudinary.uploader.destroy(
+              `${this.configService.get(EnvVars.CLOUDINARY_FOLDER)}/${publicId}`,
+              {
+                invalidate: true,
+                resource_type: 'image',
+              },
+            ),
+        ),
+      );
+    } catch (error) {
+      this.logger.error(error);
+    } finally {
+      this.logger.log('Finished image purge');
+    }
   }
 }
