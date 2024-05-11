@@ -47,4 +47,8 @@ export class CategoryService {
       .populate('games', null, Game.name)
       .exec();
   }
+
+  public async purge(): Promise<void> {
+    await this.categoryModel.deleteMany();
+  }
 }

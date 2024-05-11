@@ -72,7 +72,7 @@ export class GameService {
   public async purge(): Promise<void> {
     await this.purgeImages();
     await this.gameModel.deleteMany();
-    // await this.categoryService.purge();
+    await this.categoryService.purge();
   }
 
   private async createManyToManyData(products: Product[]): Promise<void> {
