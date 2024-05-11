@@ -69,6 +69,12 @@ export class GameService {
     }
   }
 
+  public async purge(): Promise<void> {
+    await this.purgeImages();
+    await this.gameModel.deleteMany();
+    // await this.categoryService.purge();
+  }
+
   private async createManyToManyData(products: Product[]): Promise<void> {
     const developersSet = new Set<string>();
     const publishersSet = new Set<string>();
@@ -267,5 +273,23 @@ export class GameService {
         },
       );
     });
+  }
+
+  private async purgeImages(): Promise<void> {
+    const gamesWithImages = await this.gameModel.find({
+      $or: [{ cover: { $not: { $eq: '' } } }, { gallery: { $ne: [] } }],
+    });
+
+    await Promise.all([
+      gamesWithImages.map(async (game) => [
+        cloudinary.uploader.destroy(game.slug, {
+          invalidate: true,
+          resource_type: 'image',
+        }),
+        ...game.gallery.map((_, index: number) =>
+          cloudinary.uploader.destroy(`${game.slug}___${index}`),
+        ),
+      ]),
+    ]);
   }
 }

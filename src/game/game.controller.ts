@@ -1,4 +1,4 @@
-import { Controller, Post, Query } from '@nestjs/common';
+import { Controller, Delete, Post, Query } from '@nestjs/common';
 import { GameService } from './game.service';
 
 @Controller('game')
@@ -12,5 +12,10 @@ export class GameController {
       order: 'desc:trending',
       ...queryParams,
     });
+  }
+
+  @Delete('purge')
+  public async purge() {
+    return this.gameService.purge();
   }
 }
