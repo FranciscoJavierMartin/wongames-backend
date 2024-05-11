@@ -165,7 +165,7 @@ export class GameService {
     );
 
     const cover: string = await this.saveImage(
-      gameCreated._id.toString(),
+      gameCreated.slug,
       product.coverHorizontal,
     ).catch((error) => {
       this.logger.error(error);
@@ -178,7 +178,7 @@ export class GameService {
         .map(
           async (url: string, index: number) =>
             await this.saveImage(
-              `${gameCreated._id}_${index}`,
+              `${gameCreated.slug}___${index}`,
               `${url.replace('{formatter}', 'product_card_v2_mobile_slider_639')}`,
             ),
         ),
@@ -248,12 +248,12 @@ export class GameService {
     };
   }
 
-  private async saveImage(gameId: string, imageUrl: string): Promise<string> {
+  private async saveImage(gameSlug: string, imageUrl: string): Promise<string> {
     return new Promise((resolve, reject) => {
       cloudinary.uploader.upload(
         imageUrl,
         {
-          public_id: gameId,
+          public_id: gameSlug,
           resource_type: 'image',
           overwrite: true,
           folder: this.configService.get(EnvVars.CLOUDINARY_FOLDER),
