@@ -49,4 +49,8 @@ export class DeveloperService {
       .populate('games', null, Game.name)
       .exec();
   }
+
+  public async purge(): Promise<void> {
+    await this.developerModel.deleteMany();
+  }
 }
