@@ -47,4 +47,8 @@ export class PlatformService {
       .populate('games', null, Game.name)
       .exec();
   }
+
+  public async purge(): Promise<void> {
+    await this.platformModel.deleteMany();
+  }
 }
