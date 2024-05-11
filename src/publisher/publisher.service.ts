@@ -49,4 +49,8 @@ export class PublisherService {
       .populate('games', null, Game.name)
       .exec();
   }
+
+  public async purge(): Promise<void> {
+    await this.publisherModel.deleteMany();
+  }
 }
