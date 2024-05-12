@@ -1,6 +1,6 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { GameService } from './game.service';
-import { Game } from './schemas/game.shema';
+import { GameService } from '@game/game.service';
+import { Game } from '@game/schemas/game.shema';
 
 @Resolver(() => Game)
 export class GameResolver {

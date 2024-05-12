@@ -7,10 +7,10 @@ import {
 } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import { Category } from 'src/category/schemas/category.schema';
-import { Developer } from 'src/developer/schemas/developer.schema';
-import { Platform } from 'src/platform/schemas/platform.schema';
-import { Publisher } from 'src/publisher/schemas/publisher.schema';
+import { Category } from '@category/schemas/category.schema';
+import { Developer } from '@developer/schemas/developer.schema';
+import { Platform } from '@platform/schemas/platform.schema';
+import { Publisher } from '@publisher/schemas/publisher.schema';
 
 export enum Rating {
   FREE = 'FREE',

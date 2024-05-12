@@ -1,6 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { EnvVars } from '@config/index';
 import slugify from 'slugify';
 import { JSDOM } from 'jsdom';
 import {
@@ -8,18 +10,16 @@ import {
   UploadApiResponse,
   v2 as cloudinary,
 } from 'cloudinary';
-import { Game, Rating } from './schemas/game.shema';
-import { CategoryService } from 'src/category/category.service';
-import { DeveloperService } from 'src/developer/developer.service';
-import { PlatformService } from 'src/platform/platform.service';
-import { PublisherService } from 'src/publisher/publisher.service';
-import { Product } from './dto/gog.products';
-import { ConfigService } from '@nestjs/config';
-import { EnvVars } from 'src/config';
-import { Category } from 'src/category/schemas/category.schema';
-import { Publisher } from 'src/publisher/schemas/publisher.schema';
-import { Developer } from 'src/developer/schemas/developer.schema';
-import { Platform } from 'src/platform/schemas/platform.schema';
+import { Game, Rating } from '@game/schemas/game.shema';
+import { CategoryService } from '@category/category.service';
+import { DeveloperService } from '@developer/developer.service';
+import { PlatformService } from '@platform/platform.service';
+import { PublisherService } from '@publisher/publisher.service';
+import { Product } from '@game/dto/gog.products';
+import { Category } from '@category/schemas/category.schema';
+import { Publisher } from '@publisher/schemas/publisher.schema';
+import { Developer } from '@developer/schemas/developer.schema';
+import { Platform } from '@platform/schemas/platform.schema';
 
 @Injectable()
 export class GameService {
