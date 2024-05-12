@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { CreateDeveloperInput } from './dto/create-developer.input';
-import { Developer } from './schemas/developer.schema';
-import { Game } from 'src/game/schemas/game.shema';
+import { CreateDeveloperInput } from '@developer/dto/create-developer.input';
+import { Developer } from '@developer/schemas/developer.schema';
+import { Game } from '@game/schemas/game.shema';
 
 @Injectable()
 export class DeveloperService {
