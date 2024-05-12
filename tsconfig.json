@@ -25,6 +25,8 @@
       "@health/*": ["src/health/*"],
       "@platform/*": ["src/platform/*"],
       "@publisher/*": ["src/publisher/*"]
-    }
-  }
+    },
+    "types": ["vitest/globals"]
+  },
+  "exclude": ["node_modules", "dist", "coverage"]
 }

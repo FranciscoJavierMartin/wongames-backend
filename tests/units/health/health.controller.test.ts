@@ -1,4 +1,4 @@
-import { HealthController } from '../../../src/health/health.controller';
+import { HealthController } from '@health/health.controller';
 
 describe('HealthController', () => {
   let healthController: HealthController;

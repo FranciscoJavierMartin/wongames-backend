@@ -7,7 +7,16 @@
       "decorators": true,
       "dynamicImport": true
     },
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "@category/*": ["src/category/*"],
+      "@config/*": ["src/config/*"],
+      "@developer/*": ["src/developer/*"],
+      "@game/*": ["src/game/*"],
+      "@health/*": ["src/health/*"],
+      "@platform/*": ["src/platform/*"],
+      "@publisher/*": ["src/publisher/*"]
+    }
   },
   "minify": true
 }

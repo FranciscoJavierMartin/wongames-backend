@@ -7,14 +7,6 @@ export default defineConfig({
     root: './',
     passWithNoTests: true,
     include: ['tests/units/**/*.test.ts'],
-    alias: {
-      '@health/*': './src/health/*',
-    },
-  },
-  resolve: {
-    alias: {
-      '@health/*': './src/health/*',
-    },
   },
   plugins: [
     swc.vite({
