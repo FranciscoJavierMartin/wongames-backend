@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
-import { PublisherService } from './publisher.service';
-import { PublisherResolver } from './publisher.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Publisher, PublisherSchema } from './schemas/publisher.schema';
+import { PublisherService } from '@publisher/publisher.service';
+import { PublisherResolver } from '@publisher/publisher.resolver';
+import {
+  Publisher,
+  PublisherSchema,
+} from '@publisher/schemas/publisher.schema';
 
 @Module({
   imports: [

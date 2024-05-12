@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import { Game } from 'src/game/schemas/game.shema';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Game } from '@game/schemas/game.shema';
 
 @ObjectType()
 @Schema({ toJSON: { virtuals: true } })
