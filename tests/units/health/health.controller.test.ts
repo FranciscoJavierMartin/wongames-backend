@@ -13,5 +13,9 @@ describe('HealthController', () => {
         'Health: Server instance is healthy',
       );
     });
+
+    it('should return the environment', () => {
+      expect(healthController.env()).toEqual('This is the test environment.');
+    });
   });
 });
