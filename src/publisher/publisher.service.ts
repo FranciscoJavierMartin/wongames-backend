@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreatePublisherInput } from './dto/create-publisher.input';
-import { Publisher } from './schemas/publisher.schema';
-import { Game } from 'src/game/schemas/game.shema';
+import { CreatePublisherInput } from '@publisher/dto/create-publisher.input';
+import { Publisher } from '@publisher/schemas/publisher.schema';
+import { Game } from '@game/schemas/game.shema';
 
 @Injectable()
 export class PublisherService {

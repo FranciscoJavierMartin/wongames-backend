@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { CreatePlatformInput } from './dto/create-platform.input';
-import { Platform } from './schemas/platform.schema';
-import { Game } from 'src/game/schemas/game.shema';
+import { CreatePlatformInput } from '@platform/dto/create-platform.input';
+import { Platform } from '@platform/schemas/platform.schema';
+import { Game } from '@game/schemas/game.shema';
 
 @Injectable()
 export class PlatformService {

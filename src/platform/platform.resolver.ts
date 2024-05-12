@@ -1,6 +1,6 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { PlatformService } from './platform.service';
-import { Platform } from './schemas/platform.schema';
+import { PlatformService } from '@platform/platform.service';
+import { Platform } from '@platform/schemas/platform.schema';
 
 @Resolver(() => Platform)
 export class PlatformResolver {

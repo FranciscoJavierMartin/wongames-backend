@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
-import { DeveloperService } from './developer.service';
-import { DeveloperResolver } from './developer.resolver';
-import { Developer, DeveloperSchema } from './schemas/developer.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { DeveloperService } from '@developer/developer.service';
+import { DeveloperResolver } from '@developer/developer.resolver';
+import {
+  Developer,
+  DeveloperSchema,
+} from '@developer/schemas/developer.schema';
 
 @Module({
   imports: [

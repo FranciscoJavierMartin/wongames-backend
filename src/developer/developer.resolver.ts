@@ -1,6 +1,6 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { DeveloperService } from './developer.service';
-import { Developer } from './schemas/developer.schema';
+import { DeveloperService } from '@developer/developer.service';
+import { Developer } from '@developer/schemas/developer.schema';
 
 @Resolver(() => Developer)
 export class DeveloperResolver {

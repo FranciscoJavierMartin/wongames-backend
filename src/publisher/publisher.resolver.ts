@@ -1,6 +1,6 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { PublisherService } from './publisher.service';
-import { Publisher } from './schemas/publisher.schema';
+import { PublisherService } from '@publisher/publisher.service';
+import { Publisher } from '@publisher/schemas/publisher.schema';
 
 @Resolver(() => Publisher)
 export class PublisherResolver {

@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { CreateCategoryInput } from './dto/create-category.input';
-import { Category } from './schemas/category.schema';
-import { Game } from 'src/game/schemas/game.shema';
+import { CreateCategoryInput } from '@category/dto/create-category.input';
+import { Category } from '@category/schemas/category.schema';
+import { Game } from '@game/schemas/game.shema';
 
 @Injectable()
 export class CategoryService {

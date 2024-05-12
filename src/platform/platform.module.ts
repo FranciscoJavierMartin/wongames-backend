@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { PlatformService } from './platform.service';
-import { PlatformResolver } from './platform.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Platform, PlatformSchema } from './schemas/platform.schema';
+import { PlatformService } from '@platform/platform.service';
+import { PlatformResolver } from '@platform/platform.resolver';
+import { Platform, PlatformSchema } from '@platform/schemas/platform.schema';
 
 @Module({
   imports: [
