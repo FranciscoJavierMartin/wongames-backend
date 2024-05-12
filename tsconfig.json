@@ -16,6 +16,15 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@category/*": ["src/category/*"],
+      "@config/*": ["src/config/*"],
+      "@developer/*": ["src/developer/*"],
+      "@game/*": ["src/game/*"],
+      "@health/*": ["src/health/*"],
+      "@platform/*": ["src/platform/*"],
+      "@publisher/*": ["src/publisher/*"]
+    }
   }
 }

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CategoryService } from './category.service';
-import { CategoryResolver } from './category.resolver';
-import { Category, CategorySchema } from './schemas/category.schema';
+import { CategoryService } from '@category/category.service';
+import { CategoryResolver } from '@category/category.resolver';
+import { Category, CategorySchema } from '@category/schemas/category.schema';
 
 @Module({
   imports: [
